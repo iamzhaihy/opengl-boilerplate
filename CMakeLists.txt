@@ -14,8 +14,6 @@ if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP /bigobj")
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR} )
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR} )
-else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
 # Add src folder to the include directories
@@ -25,8 +23,8 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/src")
 find_package(OpenGL REQUIRED)
 set(LIBRARIES ${OPENGL_LIBRARIES})
 
-# Include Eigen for linear algebra
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/libs/eigen")
+# Include GLM for linear algebra
+include_directories("${LIBRARY_DIR}/glm")
 
 # Compile GLFW3 statically
 option(GLFW_BUILD_EXAMPLES OFF)
@@ -39,12 +37,13 @@ list(APPEND LIBRARIES "glfw" ${GLFW_LIBRARIES})
 
 if((UNIX AND NOT APPLE) OR WIN32)
     option(GLEW_INSTALL OFF)
-    add_subdirectory("${LIBRARY_DIR}/glew" "glew")
-    include_directories("${LIBRARY_DIR}/glew/include")
-    list(APPEND LIBRARIES "glew")
+    add_subdirectory("${LIBRARY_DIR}/glad" "glad")
+    include_directories("${LIBRARY_DIR}/glad/include")
+    list(APPEND LIBRARIES "glad")
 endif()
 
-file(GLOB PROJECT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+file(GLOB PROJECT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc"
+                          "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 file(GLOB PROJECT_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h"
                           "${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp")
 
