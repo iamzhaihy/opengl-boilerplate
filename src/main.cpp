@@ -12,8 +12,8 @@ int main(void) {
     if (!glfwInit())
         return -1;
 
-    // use OpenGL 3.3 Core
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    // use OpenGL 4.3 Core
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
@@ -33,6 +33,7 @@ int main(void) {
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+    // load GL functions using GLAD
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
@@ -46,7 +47,7 @@ int main(void) {
         // swap front and back buffers
         glfwSwapBuffers(window);
 
-        // Poll for and process events
+        // poll for and process events
         glfwPollEvents();
     }
 
